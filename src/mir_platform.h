@@ -51,12 +51,7 @@ typedef VkBool32 (APIENTRY *PFN_vkGetPhysicalDeviceMirPresentationSupportKHR)(Vk
 #include "posix_time.h"
 #include "linux_joystick.h"
 #include "xkb_unicode.h"
-
-#if defined(_GLFW_EGL)
- #include "egl_context.h"
-#else
- #error "The Mir backend depends on EGL platform support"
-#endif
+#include "egl_context.h"
 
 #define _glfw_dlopen(name) dlopen(name, RTLD_LAZY | RTLD_LOCAL)
 #define _glfw_dlclose(handle) dlclose(handle)

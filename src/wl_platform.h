@@ -49,12 +49,7 @@ typedef VkBool32 (APIENTRY *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR
 #include "posix_time.h"
 #include "linux_joystick.h"
 #include "xkb_unicode.h"
-
-#if defined(_GLFW_EGL)
- #include "egl_context.h"
-#else
- #error "The Wayland backend depends on EGL platform support"
-#endif
+#include "egl_context.h"
 
 #include "wayland-relative-pointer-unstable-v1-client-protocol.h"
 #include "wayland-pointer-constraints-unstable-v1-client-protocol.h"
