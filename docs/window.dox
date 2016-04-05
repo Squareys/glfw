@@ -255,6 +255,19 @@ create the context.  Possible values are `GLFW_NATIVE_CONTEXT_API` and
 `GLFW_EGL_CONTEXT_API`.  This is a hard constraint.  If no client API is
 requested, this hint is ignored.
 
+@par
+__OS X:__ The EGL API is not available on this platform and requests to use it
+will fail.
+
+@par
+__Wayland, Mir:__ The EGL API _is_ the native context creation API, so this hint
+will have no effect.
+
+@note An OpenGL extension loader library that assumes it knows which context
+creation API is used on a given platform may fail if you change this hint.  This
+can be resolved by having it load via @ref glfwGetProcAddress, which always uses
+the selected API.
+
 `GLFW_CONTEXT_VERSION_MAJOR` and `GLFW_CONTEXT_VERSION_MINOR` specify the client
 API version that the created context must be compatible with.  The exact
 behavior of these hints depend on the requested client API.
