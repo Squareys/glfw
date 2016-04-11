@@ -935,7 +935,7 @@ int _glfwPlatformCreateWindow(_GLFWwindow* window,
 
     if (ctxconfig->client != GLFW_NO_API)
     {
-        if (ctxconfig->context == GLFW_NATIVE_CONTEXT_API)
+        if (ctxconfig->source == GLFW_NATIVE_CONTEXT_API)
         {
             if (!_glfwCreateContextWGL(window, ctxconfig, fbconfig))
                 return GLFW_FALSE;

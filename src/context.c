@@ -90,6 +90,15 @@ static GLFWbool parseVersionString(int* api, int* major, int* minor, int* rev)
 
 GLFWbool _glfwIsValidContextConfig(const _GLFWctxconfig* ctxconfig)
 {
+    if (ctxconfig->source != GLFW_NATIVE_CONTEXT_API &&
+        ctxconfig->source != GLFW_EGL_CONTEXT_API)
+    {
+        _glfwInputError(GLFW_INVALID_ENUM,
+                        "Invalid context creation API %i",
+                        ctxconfig->source);
+        return GLFW_FALSE;
+    }
+
     if (ctxconfig->client != GLFW_NO_API &&
         ctxconfig->client != GLFW_OPENGL_API &&
         ctxconfig->client != GLFW_OPENGL_ES_API)
@@ -366,6 +375,11 @@ GLFWbool _glfwRefreshContextAttribs(const _GLFWctxconfig* ctxconfig)
         glfwGetProcAddress("glGetIntegerv");
     window->context.GetString = (PFNGLGETSTRINGPROC)
         glfwGetProcAddress("glGetString");
+    if (!window->context.GetIntegerv || !window->context.GetString)
+    {
+        _glfwInputError(GLFW_PLATFORM_ERROR, "Entry point retrieval is broken");
+        return GLFW_FALSE;
+    }
 
     if (!parseVersionString(&window->context.client,
                             &window->context.major,
@@ -374,6 +388,8 @@ GLFWbool _glfwRefreshContextAttribs(const _GLFWctxconfig* ctxconfig)
     {
         return GLFW_FALSE;
     }
+
+    window->context.source = ctxconfig->source;
 
     if (window->context.major < ctxconfig->major ||
         (window->context.major == ctxconfig->major &&
@@ -559,7 +575,7 @@ GLFWAPI void glfwMakeContextCurrent(GLFWwindow* handle)
 
     if (previous)
     {
-        if (!window || window->context.context != previous->context.context)
+        if (!window || window->context.source != previous->context.source)
             previous->context.makeContextCurrent(NULL);
     }
 

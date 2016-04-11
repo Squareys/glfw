@@ -249,10 +249,10 @@ void glfwDefaultWindowHints(void)
     memset(&_glfw.hints, 0, sizeof(_glfw.hints));
 
     // The default is OpenGL with minimum version 1.0
-    _glfw.hints.context.client  = GLFW_OPENGL_API;
-    _glfw.hints.context.context = GLFW_NATIVE_CONTEXT_API;
-    _glfw.hints.context.major   = 1;
-    _glfw.hints.context.minor   = 0;
+    _glfw.hints.context.client = GLFW_OPENGL_API;
+    _glfw.hints.context.source = GLFW_NATIVE_CONTEXT_API;
+    _glfw.hints.context.major  = 1;
+    _glfw.hints.context.minor  = 0;
 
     // The default is a focused, visible, resizable window with decorations
     _glfw.hints.window.resizable   = GLFW_TRUE;
@@ -351,7 +351,7 @@ GLFWAPI void glfwWindowHint(int hint, int value)
             _glfw.hints.context.client = value;
             break;
         case GLFW_CONTEXT_CREATION_API:
-            _glfw.hints.context.context = value;
+            _glfw.hints.context.source = value;
             break;
         case GLFW_CONTEXT_VERSION_MAJOR:
             _glfw.hints.context.major = value;
@@ -684,7 +684,7 @@ GLFWAPI int glfwGetWindowAttrib(GLFWwindow* handle, int attrib)
         case GLFW_CLIENT_API:
             return window->context.client;
         case GLFW_CONTEXT_CREATION_API:
-            return window->context.context;
+            return window->context.source;
         case GLFW_CONTEXT_VERSION_MAJOR:
             return window->context.major;
         case GLFW_CONTEXT_VERSION_MINOR:
